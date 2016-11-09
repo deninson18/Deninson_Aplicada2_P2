@@ -16,7 +16,14 @@
 <body>
     <form id="form1" runat="server">
     <div>
+        <nav class="navbar navbar-inverse  " >
+            <div class="container">
 
+            </div>
+
+        </nav>
+       
+    
         <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
         
         </asp:ContentPlaceHolder>
