@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeninsonAplicada2-P2", "DeninsonAplicada2-P2\DeninsonAplicada2-P2.csproj", "{0FF8DF8B-5407-49E3-99EC-4435BDFD8CBD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "BLL\BLL.csproj", "{2C334BBC-68A8-4F98-9D87-822368E6FA1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{748372FD-B8EE-4B18-9F69-7849762B41D4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0FF8DF8B-5407-49E3-99EC-4435BDFD8CBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FF8DF8B-5407-49E3-99EC-4435BDFD8CBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FF8DF8B-5407-49E3-99EC-4435BDFD8CBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FF8DF8B-5407-49E3-99EC-4435BDFD8CBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C334BBC-68A8-4F98-9D87-822368E6FA1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C334BBC-68A8-4F98-9D87-822368E6FA1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C334BBC-68A8-4F98-9D87-822368E6FA1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C334BBC-68A8-4F98-9D87-822368E6FA1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{748372FD-B8EE-4B18-9F69-7849762B41D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{748372FD-B8EE-4B18-9F69-7849762B41D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{748372FD-B8EE-4B18-9F69-7849762B41D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{748372FD-B8EE-4B18-9F69-7849762B41D4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
