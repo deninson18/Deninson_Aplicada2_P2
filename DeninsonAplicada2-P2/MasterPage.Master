@@ -12,13 +12,18 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
+    <style>
+        footer{background:fixed}
+
+    </style>
 </head>
 <body>
     <form id="form1" runat="server">
     <div>
         <nav class="navbar navbar-inverse  " >
-            <div class="container">
-
+            <div class="container-fluid">
+             <a class="navbar-brand" href="#">SEGUNDO PARCIAL</a>
+           
             </div>
 
         </nav>
@@ -29,5 +34,11 @@
         </asp:ContentPlaceHolder>
     </div>
     </form>
+    <div class="panel-footer success">
+        DBLA Todos los Derechos Reservados.
+        <div>
+          <h5> QUE DIOS NOS AYUDE.</h5>
+        </div>
+    </div>
 </body>
 </html>
