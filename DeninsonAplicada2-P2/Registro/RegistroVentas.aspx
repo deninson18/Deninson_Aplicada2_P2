@@ -39,7 +39,7 @@
     <br/>
     <br/>
     <asp:Button ID="nuevoButton" Class="btn btn-Success" runat="server" Text="Nuevo" />
-    <asp:Button ID="guardarButton" Class="btn btn-primary" runat="server" Text="Guardar" Width="106px" />
+    <asp:Button ID="guardarButton" Class="btn btn-primary" runat="server" Text="Guardar" Width="106px" OnClick="guardarButton_Click" />
     <asp:Button ID="eliminarButton" Class="btn btn-danger" runat="server" Text="Eliminar" />
 
 </asp:Content>

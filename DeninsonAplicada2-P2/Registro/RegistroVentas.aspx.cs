@@ -5,12 +5,24 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using BLL;
+using System.Data;
 
 namespace DeninsonAplicada2_P2.Registro
 {
     public partial class RegistroVentas : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                DataTable dt = new DataTable();
+               
+                dt.Columns.AddRange(new DataColumn[4] { new DataColumn("VentaId"), new DataColumn("Articulo"), new DataColumn("Cantidad"), new DataColumn("Precio") });
+                Session["Ventas"] = dt;
+            }
+        }
+
+        public void CargarDatosVentas(Ventas Venta)
         {
 
         }
@@ -35,6 +47,23 @@ namespace DeninsonAplicada2_P2.Registro
                 else
                 {
                     Utility.ShowToastr(this, "Id no Existe", "MESSAGE", "SUCCESS");
+                }
+            }
+        }
+
+        protected void guardarButton_Click(object sender, EventArgs e)
+        {
+            Ventas venta = new Ventas();
+            CargarDatosVentas(venta);
+            if (idVentaTextBox.Text.Length <= 0)
+            {
+                if (venta.Insertar())
+                {
+                    Utility.ShowToastr(this, "Guardo Correctamente", "Message", "SUCCESS");
+                }
+                else
+                {
+                    Response.Write("<script>alert('Error al Guardar')</script>");
                 }
             }
         }
