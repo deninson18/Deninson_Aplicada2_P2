@@ -8,27 +8,27 @@
     <asp:Button ID="buscarArticuloButton" runat="server" Text="BUSCAR" OnClick="buscarArticuloButton_Click" />
     <br/>
     <asp:Label ID="Label2" runat="server" Text="Descripcion"></asp:Label>
-    <asp:TextBox ID="descripcionTextBox" runat="server" Height="21px" Width="243px"></asp:TextBox>
+    <asp:TextBox ID="descripcionTextBox" runat="server" Height="21px" Width="243px" ReadOnly="True"></asp:TextBox>
    <br/>
     <asp:Label ID="Label3" runat="server" Text="Existencia"></asp:Label>
-    <asp:TextBox ID="existenciaTextBox" runat="server"></asp:TextBox>
+    <asp:TextBox ID="existenciaTextBox" runat="server" ReadOnly="True"></asp:TextBox>
        <br/>
     <asp:Label ID="Label4" runat="server" Text="Precio"></asp:Label>
-    <asp:TextBox ID="precioTextBox" runat="server"></asp:TextBox>
+    <asp:TextBox ID="precioTextBox" runat="server" ReadOnly="True"></asp:TextBox>
     <br/>
     <br/>
     <asp:Label ID="Label5" runat="server" Text="Venta Id"></asp:Label>
     <asp:TextBox ID="idVentaTextBox" runat="server"></asp:TextBox>
-    <asp:Button ID="buscarButton" runat="server" Text="Buscar" />
+    <asp:Button ID="buscarButton" runat="server" Text="Buscar" OnClick="buscarButton_Click" />
      <asp:Label ID="Label6" runat="server" Text="Fecha"></asp:Label>
     <asp:TextBox ID="FechaTexBox" runat="server"></asp:TextBox>
     <br/>
    
     <asp:Label ID="Label7" runat="server" Text="Monto"></asp:Label>
-    <asp:TextBox ID="montoTextBox" runat="server"></asp:TextBox>
+    <asp:TextBox ID="montoTextBox" runat="server" ReadOnly="True"></asp:TextBox>
     <br/>
     <asp:Label ID="Label9" runat="server" Text="Articulo"></asp:Label>
-    <asp:DropDownList ID="articuloDropDownList" runat="server" Height="16px" Width="155px"></asp:DropDownList>
+    <asp:DropDownList ID="articuloDropDownList" runat="server" Height="16px" Width="155px" AutoPostBack="True" OnSelectedIndexChanged="articuloDropDownList_SelectedIndexChanged"></asp:DropDownList>
     <asp:Label ID="Label8" runat="server" Text="Cantidad"></asp:Label>
     <asp:TextBox ID="cantidadTextBox" runat="server"></asp:TextBox>
     <asp:Label ID="Label10" runat="server" Text="Precio"></asp:Label>
@@ -43,8 +43,8 @@
     </asp:GridView>
     <br/>
     <br/>
-    <asp:Button ID="nuevoButton" Class="btn btn-Success" runat="server" Text="Nuevo" />
+    <asp:Button ID="nuevoButton" Class="btn btn-Success" runat="server" Text="Nuevo" OnClick="nuevoButton_Click" />
     <asp:Button ID="guardarButton" Class="btn btn-primary" runat="server" Text="Guardar" Width="106px" OnClick="guardarButton_Click" />
-    <asp:Button ID="eliminarButton" Class="btn btn-danger" runat="server" Text="Eliminar" />
+    <asp:Button ID="eliminarButton" Class="btn btn-danger" runat="server" Text="Eliminar" OnClick="eliminarButton_Click" />
 
 </asp:Content>

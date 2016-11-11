@@ -60,18 +60,19 @@ namespace BLL
             DataTable dt = new DataTable();
             try
             {
-                dt = conexion.ObtenerDatos(string.Format("select * from Ventas where VentalId={0}", Buscado));
+                dt = conexion.ObtenerDatos(string.Format("select * from Ventas where VentaId={0}", Buscado));
                 if (dt.Rows.Count > 0)
                 {
+                    this.VentaId = (int)dt.Rows[0]["VentaId"];
                     this.Fecha = dt.Rows[0]["Fecha"].ToString();
-                    this.Monto = (float)dt.Rows[0]["Monto"];
+                    this.Monto = (float)Convert.ToDecimal(dt.Rows[0]["Monto"].ToString());
 
                     DataTable dtDetalle = new DataTable();
 
-                    dtDetalle = conexion.ObtenerDatos(string.Format("select * from VentasDetalle where ArticulolId={0}", Buscado));
+                    dtDetalle = conexion.ObtenerDatos(string.Format("select * from VentasDetalle where VentaId={0}", Buscado));
                     foreach (DataRow row in dtDetalle.Rows)
                     {
-                        AgregarArticulos((int)row["ArticuloID"],(int)row["Cantidad"], (float)row["Precio"]);
+                        AgregarArticulos((int)row["ArticuloID"],(int)row["Cantidad"], (float)Convert.ToDecimal( row["Precio"].ToString()));
                     }
 
                 }
@@ -102,7 +103,27 @@ namespace BLL
 
         public override bool Modificar()
         {
-            throw new NotImplementedException();
+            ConexionDb conexion = new ConexionDb();
+            bool retorno = false;
+            try
+            {
+                retorno = conexion.Ejecutar(string.Format("update Ventas set Fecha = '{0}',Monto={1}  where VentaId={2} ",this.Fecha,this.Monto,this.VentaId));
+               
+                if (retorno)
+                {
+                    retorno = conexion.Ejecutar(string.Format("delete from VentasDetalle where VentaId={0}", this.VentaId));
+
+                    foreach (VentasDetalle item in this.ListaArticulos)
+                    {
+                        conexion.Ejecutar(string.Format("insert into VentasDetalle(VentaId,ArticuloID,Cantidad,Precio) values({0},{1},{2},{3})", this.VentaId, item.ArticuloId, item.Cantidad, item.Precio));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return retorno;
         }
         public override DataTable Listado(string Campos, string Condicion, string Orden)
         {

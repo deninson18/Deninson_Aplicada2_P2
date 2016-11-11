@@ -17,7 +17,7 @@ namespace DeninsonAplicada2_P2.Registro
             {
                 DataTable dt = new DataTable();
                 CargarDropList();
-                dt.Columns.AddRange(new DataColumn[3] {new DataColumn("Articulo"), new DataColumn("Cantidad"), new DataColumn("Precio") });
+                dt.Columns.AddRange(new DataColumn[3] { new DataColumn("Articulo"), new DataColumn("Cantidad"), new DataColumn("Precio") });
                 Session["Articulos"] = dt;
             }
         }
@@ -32,10 +32,45 @@ namespace DeninsonAplicada2_P2.Registro
             float.TryParse(montoTextBox.Text, out monto);
             venta.Monto = monto;
 
-            foreach(GridViewRow row in ventasGridView.Rows)
+            foreach (GridViewRow row in ventasGridView.Rows)
             {
-                venta.AgregarArticulos(int.Parse(row.Cells[0].Text),int.Parse(row.Cells[1].Text),(float)Convert.ToDecimal(row.Cells[2].Text));
+                venta.AgregarArticulos(int.Parse(row.Cells[0].Text), int.Parse(row.Cells[1].Text), (float)Convert.ToDecimal(row.Cells[2].Text));
             }
+        }
+
+        private void DevolverDatosVentas(Ventas venta)
+        {
+            FechaTexBox.Text = venta.Fecha;
+            montoTextBox.Text = venta.Monto.ToString();
+            foreach (var item in venta.ListaArticulos)
+            {
+                DataTable dt = (DataTable)Session["Articulos"];
+                dt.Rows.Add(item.ArticuloId, item.Cantidad, item.Precio);
+                Session["Articulos"] = dt;
+                ventasGridView.DataSource = Session["Articulos"];
+                ventasGridView.DataBind();
+
+
+            }
+        }
+
+        private void Limpiar()
+        {
+            descripcionTextBox.Text = string.Empty;
+            existenciaTextBox.Text = string.Empty;
+            precioTextBox.Text = string.Empty;
+
+            idVentaTextBox.Text = string.Empty;
+            cantidadTextBox.Text = string.Empty;
+            FechaTexBox.Text = string.Empty;
+            montoTextBox.Text = string.Empty;
+            articuloDropDownList.SelectedIndex = 0;
+            precioDropDownList.SelectedIndex = 0;
+            DataTable dt = new DataTable();
+            dt.Columns.AddRange(new DataColumn[3] { new DataColumn("Articulo"), new DataColumn("Cantidad"), new DataColumn("Precio") });
+            Session["Articulos"] = dt;
+            ventasGridView.DataBind();
+
         }
         private void CargarDropList()
         {
@@ -45,17 +80,14 @@ namespace DeninsonAplicada2_P2.Registro
             articuloDropDownList.DataValueField = "ArticuloID";
             articuloDropDownList.DataBind();
 
-            precioDropDownList.DataSource = articulo.Listado("ArticuloID,Precio", "1=1", "");
-            precioDropDownList.DataTextField = "Precio";
-            precioDropDownList.DataValueField = "Precio";
-            precioDropDownList.DataBind();
+
         }
 
         private void CalcularMonto()
         {
             float Suma = 0, Total = 0, Resultado = 0;
-            
-            foreach(GridViewRow row in ventasGridView.Rows)
+
+            foreach (GridViewRow row in ventasGridView.Rows)
             {
                 Suma = Suma + (float)Convert.ToDecimal(row.Cells[1].Text);
                 Total = Total + (float)Convert.ToDecimal(row.Cells[2].Text);
@@ -67,10 +99,10 @@ namespace DeninsonAplicada2_P2.Registro
 
 
         }
-        private void DevolverDatos(Articulos articulo)
+        private void DevolverDatosArticulos(Articulos articulo)
         {
             descripcionTextBox.Text = articulo.Descripcion;
-            existenciaTextBox.Text = articulo.Existencia.ToString() ;
+            existenciaTextBox.Text = articulo.Existencia.ToString();
             precioTextBox.Text = articulo.Precio.ToString();
         }
 
@@ -78,16 +110,16 @@ namespace DeninsonAplicada2_P2.Registro
         {
             Articulos articulo = new Articulos();
             int id = 0;
-            int.TryParse(ArticuloIdTextBox .Text, out id);
+            int.TryParse(ArticuloIdTextBox.Text, out id);
             if (id > 0)
             {
                 if (articulo.Buscar(id))
                 {
-                    DevolverDatos(articulo);
+                    DevolverDatosArticulos(articulo);
                 }
                 else
                 {
-                    Utility.ShowToastr(this, "Id no Existe", "MESSAGE", "SUCCESS");
+                    Utility.ShowToastr(this, "Id no Existe", "MESSAGE", "Warning");
                 }
             }
         }
@@ -104,7 +136,20 @@ namespace DeninsonAplicada2_P2.Registro
                 }
                 else
                 {
-                    Utility.ShowToastr(this, "Error al Guardar", "Message", "Danger");
+                    Utility.ShowToastr(this, "Error al Guardar", "Message", "Warning");
+                }
+            }
+             if (idVentaTextBox.Text.Length > 0)
+            {
+                CargarDatosVentas(venta);
+
+                if (venta.Modificar())
+                {
+                    Utility.ShowToastr(this, "Edito Correctamente", "Message", "SUCCESS");
+                }
+                else
+                {
+                    Utility.ShowToastr(this, "Error Al Editar", "Message", "Warning");
                 }
             }
         }
@@ -117,6 +162,59 @@ namespace DeninsonAplicada2_P2.Registro
             ventasGridView.DataSource = dt;
             ventasGridView.DataBind();
             CalcularMonto();
+        }
+
+        protected void eliminarButton_Click(object sender, EventArgs e)
+        {
+            Ventas venta = new Ventas();
+            int id;
+            int.TryParse(idVentaTextBox.Text, out id);
+            if (id > 0)
+            {
+                CargarDatosVentas(venta);
+                if (venta.Eliminar())
+                {
+
+                    Utility.ShowToastr(this, "Elimino Correctamente", "Message", "SUCCESS");
+                    Limpiar();
+                }
+                else
+                {
+                    Utility.ShowToastr(this, "Error al Eliminar!!", "Message", "DANGER");
+                }
+            }
+        }
+
+        protected void nuevoButton_Click(object sender, EventArgs e)
+        {
+            Limpiar();
+        }
+
+        protected void buscarButton_Click(object sender, EventArgs e)
+        {
+            Ventas venta = new Ventas();
+            int id = 0;
+            int.TryParse(idVentaTextBox.Text, out id);
+            if (id > 0)
+            {
+                if (venta.Buscar(id))
+                {
+                    DevolverDatosVentas(venta);
+                }
+                else
+                {
+                    Utility.ShowToastr(this, "ID NO EXISTE!!", "Message", "DANGER");
+                }
+            }
+        }
+
+        protected void articuloDropDownList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Articulos articulo = new Articulos();
+            precioDropDownList.DataSource = articulo.Listado("ArticuloID,Precio", "ArticuloID =" + articuloDropDownList.SelectedValue, "");
+            precioDropDownList.DataTextField = "Precio";
+            precioDropDownList.DataValueField = "Precio";
+            precioDropDownList.DataBind();
         }
     }
 }
