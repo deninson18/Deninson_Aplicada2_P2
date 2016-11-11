@@ -9,14 +9,14 @@ namespace BLL
     public class Articulos : ClaseMaestra
     {
 
-        public int ArticuloId { get; set; }
+        public int ArticuloID { get; set; }
         public string Descripcion { get; set; }
         public int Existencia { get; set; }
         public float Precio { get; set; }
 
         public Articulos()
         {
-            this.ArticuloId = 0;
+            this.ArticuloID = 0;
             this.Descripcion = "";
             this.Existencia = 0;
             this.Precio = 0;
@@ -33,7 +33,7 @@ namespace BLL
                     
                     this.Descripcion = dt.Rows[0]["Descripcion"].ToString();
                     this.Existencia = (int)dt.Rows[0]["Existencia"];
-                   // this.Precio = (float)dt.Rows[0]["Precio"];
+                    this.Precio = (float)Convert.ToDecimal(dt.Rows[0]["Precio"].ToString());
                 }
                 return dt.Rows.Count > 0;
 
@@ -56,7 +56,13 @@ namespace BLL
 
         public override DataTable Listado(string Campos, string Condicion, string Orden)
         {
-            throw new NotImplementedException();
+            ConexionDb conexion = new ConexionDb();
+            string Order = "";
+            if (!Orden.Equals(""))
+            {
+                Order = "order by";
+            }
+            return conexion.ObtenerDatos(string.Format("select " + Campos + " from Articulos where " + Condicion + Order));
         }
 
         public override bool Modificar()

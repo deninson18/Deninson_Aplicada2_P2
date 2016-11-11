@@ -16,17 +16,58 @@ namespace DeninsonAplicada2_P2.Registro
             if (!IsPostBack)
             {
                 DataTable dt = new DataTable();
-               
-                dt.Columns.AddRange(new DataColumn[4] { new DataColumn("VentaId"), new DataColumn("Articulo"), new DataColumn("Cantidad"), new DataColumn("Precio") });
-                Session["Ventas"] = dt;
+                CargarDropList();
+                dt.Columns.AddRange(new DataColumn[3] {new DataColumn("Articulo"), new DataColumn("Cantidad"), new DataColumn("Precio") });
+                Session["Articulos"] = dt;
             }
         }
 
-        public void CargarDatosVentas(Ventas Venta)
+        private void CargarDatosVentas(Ventas venta)
         {
+            venta.Fecha = FechaTexBox.Text;
+            int id;
+            float monto;
+            int.TryParse(idVentaTextBox.Text, out id);
+            venta.VentaId = id;
+            float.TryParse(montoTextBox.Text, out monto);
+            venta.Monto = monto;
+
+            foreach(GridViewRow row in ventasGridView.Rows)
+            {
+                venta.AgregarArticulos(int.Parse(row.Cells[0].Text),int.Parse(row.Cells[1].Text),(float)Convert.ToDecimal(row.Cells[2].Text));
+            }
+        }
+        private void CargarDropList()
+        {
+            Articulos articulo = new Articulos();
+            articuloDropDownList.DataSource = articulo.Listado("ArticuloID,Descripcion", "1=1", "");
+            articuloDropDownList.DataTextField = "Descripcion";
+            articuloDropDownList.DataValueField = "ArticuloID";
+            articuloDropDownList.DataBind();
+
+            precioDropDownList.DataSource = articulo.Listado("ArticuloID,Precio", "1=1", "");
+            precioDropDownList.DataTextField = "Precio";
+            precioDropDownList.DataValueField = "Precio";
+            precioDropDownList.DataBind();
+        }
+
+        private void CalcularMonto()
+        {
+            float Suma = 0, Total = 0, Resultado = 0;
+            
+            foreach(GridViewRow row in ventasGridView.Rows)
+            {
+                Suma = Suma + (float)Convert.ToDecimal(row.Cells[1].Text);
+                Total = Total + (float)Convert.ToDecimal(row.Cells[2].Text);
+            }
+
+            Resultado = Suma * Total;
+            montoTextBox.Text = Resultado.ToString();
+            cantidadTextBox.Text = string.Empty;
+
 
         }
-        public void DevolverDatos(Articulos articulo)
+        private void DevolverDatos(Articulos articulo)
         {
             descripcionTextBox.Text = articulo.Descripcion;
             existenciaTextBox.Text = articulo.Existencia.ToString() ;
@@ -63,9 +104,19 @@ namespace DeninsonAplicada2_P2.Registro
                 }
                 else
                 {
-                    Response.Write("<script>alert('Error al Guardar')</script>");
+                    Utility.ShowToastr(this, "Error al Guardar", "Message", "Danger");
                 }
             }
+        }
+
+        protected void agregarButton_Click(object sender, EventArgs e)
+        {
+            DataTable dt = (DataTable)Session["Articulos"];
+            dt.Rows.Add(articuloDropDownList.SelectedValue, cantidadTextBox.Text, precioDropDownList.SelectedValue);
+            Session["Articulos"] = dt;
+            ventasGridView.DataSource = dt;
+            ventasGridView.DataBind();
+            CalcularMonto();
         }
     }
 }

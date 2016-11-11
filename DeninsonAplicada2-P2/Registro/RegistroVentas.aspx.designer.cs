@@ -130,13 +130,13 @@ namespace DeninsonAplicada2_P2.Registro {
         protected global::System.Web.UI.WebControls.Label Label6;
         
         /// <summary>
-        /// Fecha control.
+        /// FechaTexBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Fecha;
+        protected global::System.Web.UI.WebControls.TextBox FechaTexBox;
         
         /// <summary>
         /// Label7 control.
@@ -157,6 +157,24 @@ namespace DeninsonAplicada2_P2.Registro {
         protected global::System.Web.UI.WebControls.TextBox montoTextBox;
         
         /// <summary>
+        /// Label9 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label9;
+        
+        /// <summary>
+        /// articuloDropDownList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList articuloDropDownList;
+        
+        /// <summary>
         /// Label8 control.
         /// </summary>
         /// <remarks>
@@ -166,22 +184,49 @@ namespace DeninsonAplicada2_P2.Registro {
         protected global::System.Web.UI.WebControls.Label Label8;
         
         /// <summary>
-        /// DropDownList1 control.
+        /// cantidadTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList1;
+        protected global::System.Web.UI.WebControls.TextBox cantidadTextBox;
         
         /// <summary>
-        /// GridView1 control.
+        /// Label10 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView GridView1;
+        protected global::System.Web.UI.WebControls.Label Label10;
+        
+        /// <summary>
+        /// precioDropDownList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList precioDropDownList;
+        
+        /// <summary>
+        /// agregarButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button agregarButton;
+        
+        /// <summary>
+        /// ventasGridView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView ventasGridView;
         
         /// <summary>
         /// nuevoButton control.

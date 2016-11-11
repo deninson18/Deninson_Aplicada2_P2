@@ -21,9 +21,9 @@ namespace BLL
             this.Monto = 0;
             ListaArticulos = new List<VentasDetalle>();
         }
-        public void AgregarArticulos(int ventaId, int ArticuloId,int Cantidad,float Precio)
+        public void AgregarArticulos(int ArticuloID,int Cantidad,float Precio)
         {
-            ListaArticulos.Add(new VentasDetalle(VentaId,ArticuloId,Cantidad,Precio));
+            ListaArticulos.Add(new VentasDetalle(ArticuloID,Cantidad,Precio));
         }
 
 
@@ -33,18 +33,16 @@ namespace BLL
             int retorno = 0;
             try
             {
-                object id;
-
-                id = conexion.ObtenerValor(String.Format("insert into Ventas(Fecha,Monto) values('{0}',{1}) select @@identity; ", 
-                    this.Fecha,this.Monto));
-                //int.TryParse(id.ToString(), out retorno);
+               retorno =Convert.ToInt32(conexion.ObtenerValor(String.Format("insert into Ventas(Fecha,Monto) values('{0}',{1}); select SCOPE_IDENTITY() ", 
+                    this.Fecha,this.Monto)));
+                 VentaId=retorno;
                 
                 if (retorno > 0)
                 {
                     foreach (VentasDetalle item in this.ListaArticulos)
                     {
-                        conexion.Ejecutar(String.Format("Insert into VentasDetalle(VentaId,ArticuloId,Cantidad,Precio) Values ({0},{1},{2},{3})",
-                            retorno, item.VentaId, item.ArticuloId,item.Cantidad,item.Precio));
+                        conexion.Ejecutar(String.Format("Insert into VentasDetalle(VentaId,ArticuloID,Cantidad,Precio) Values ({0},{1},{2},{3})",
+                            retorno,item.ArticuloId,item.Cantidad,item.Precio));
                     }
                 }
             }
@@ -73,7 +71,7 @@ namespace BLL
                     dtDetalle = conexion.ObtenerDatos(string.Format("select * from VentasDetalle where ArticulolId={0}", Buscado));
                     foreach (DataRow row in dtDetalle.Rows)
                     {
-                        AgregarArticulos((int)row["VentaId"], (int)row["ArticuloId"],(int)row["Cantidad"], (float)row["Precio"]);
+                        AgregarArticulos((int)row["ArticuloID"],(int)row["Cantidad"], (float)row["Precio"]);
                     }
 
                 }
@@ -92,7 +90,7 @@ namespace BLL
             bool retorno = false;
             try
             {
-                retorno = conexion.Ejecutar(string.Format("delete from VentasDetalle where VentaId={0}; delete from Ventas where Ventas={0}", this.VentaId));
+                retorno = conexion.Ejecutar(string.Format("delete from VentasDetalle where VentaId={0}; delete from Ventas where VentaId={0}", this.VentaId));
 
             }
             catch (Exception ex)
@@ -109,7 +107,12 @@ namespace BLL
         public override DataTable Listado(string Campos, string Condicion, string Orden)
         {
             ConexionDb conexion = new ConexionDb();
-            return conexion.ObtenerDatos("select " + Campos + " from Ventas where " + Condicion + Orden);
+            string Order = "";
+            if (!Orden.Equals(""))
+            {
+                Order = "order bye";
+            }
+            return conexion.ObtenerDatos(string.Format("select " + Campos + " from Ventas where " + Condicion + Order));
         }
     }
 }
